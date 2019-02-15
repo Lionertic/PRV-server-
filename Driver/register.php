@@ -32,9 +32,9 @@ function checkKeys($con,$str){
             return true;
 }
 
-if (isset($_GET['mob'])&& isset($_GET['pass'])) {
-    $mob = $_GET['mob'];
-    $pass = $_GET['pass'];
+if (isset($_POST['mob'])&& isset($_POST['pass'])) {
+    $mob = $_POST['mob'];
+    $pass = $_POST['pass'];
     $time = date("Y-m-d H:i:s");
     $result = mysqli_query($con,"select id from driver where id=$mob");
     if (mysqli_num_rows($result)==0) {
@@ -64,5 +64,4 @@ if (isset($_GET['mob'])&& isset($_GET['pass'])) {
     $response["message"] = "Required field(s) is missing";
     echo json_encode($response);
 }
-
 ?>

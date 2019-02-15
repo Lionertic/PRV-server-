@@ -34,18 +34,18 @@ function checkKeys($con,$str){
 $response = array();
 $distance = array();
 $keys=array();
-$max;
-if (isset($_GET['lat'])&&isset($_GET['lon'])&&isset($_GET['key'])) {
-    $lld1 = new LatLng($_GET['lat'], $_GET['lon']);
-    $key=$_GET['key'];
+$max=0;
+if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['key'])) {
+    $lld1 = new LatLng($_POST['lat'], $_POST['lon']);
+    $key=$_POST['key'];
     $sql="select lat,lon,uiKey from driver where onDrive='0'";
     $result = mysqli_query($con,$sql);
     if (!empty($result)) {
       $k=generateKey($con,$key);
       if (mysqli_num_rows($result) > 0){
-      while ($row=mysqli_fetch_assoc($result)) {
-        $distance[$row['uiKey']]=$lld1->distance(new LatLng($row['lat'],$row['lon']));
-      }
+        while ($row=mysqli_fetch_assoc($result)) {
+          $distance[$row['uiKey']]=$lld1->distance(new LatLng($row['lat'],$row['lon']));
+        }
           $response["success"] = 1;
           $value=$distance;
           sort($distance);
@@ -55,17 +55,20 @@ if (isset($_GET['lat'])&&isset($_GET['lon'])&&isset($_GET['key'])) {
           else {
             $max=count($distance);
           }
+
           for($i=0;$i<count($distance);$i++)
             foreach ($value as $key=>$dist)
-                if(($distance[$i]==$dist)&&$distance[$i]<6)
-                {
-                    array_push($keys,$key);
-                    break;
-                }
-                for($i=1;$i<=$max;$i++){
-                  $result = mysqli_query($con,"update current set driKey$i where id = '$k'");
-                }
-                $response["id"]=$k;
+              if(($distance[$i]==$dist))
+              {
+                  array_push($keys,$key);
+                  break;
+              }
+            for($i=1;$i<=$max;$i++){
+              $ind=$i-1;
+              $sql="update current set driKey$i='$keys[$ind]' where id = '$k'";
+              $result = mysqli_query($con,$sql);
+            }
+            $response["id"]=$k;
           echo json_encode($response);
       }
       else {

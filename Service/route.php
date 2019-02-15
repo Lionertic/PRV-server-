@@ -5,15 +5,23 @@ $response = array();
 $Point = array();
 $i=0;
 $no=2;
+
 if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['id'])) {
+  $dr1=$dr2='1';
     $lat=$_POST['lat'];
     $lon=$_POST['lon'];
-    $id=isset($_POST['id']);
+    $id=$_POST['id'];
     $url="http://localhost:8989/route?points_encoded=false&point=";
     $Orig="&point=".$lat.','.$lon;
-    $sql = "select driKey1,driKey2 from current where id=''$id'";
-    $dr1=$_POST['driKey1'];
-    $dr2=$_POST['driKey2'];
+    $sql = "select driKey1,driKey2 from current where id='$id'";
+    $result = mysqli_query($con,$sql);
+    if (!empty($result)){
+      while ($row=mysqli_fetch_assoc($result)) {
+        $dr1=$row['driKey1'];
+        $dr2=$row['driKey2'];
+      }
+    }
+
     if(strcmp($dr2,'0')!=0){
       $dr2=null;
       $no=1;
@@ -29,7 +37,7 @@ if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['id'])) {
       foreach($Point as $key=>$value){
           $link=$url.$value.$Orig;
           $response[$i.'co']=$coord[$key];
-          $response[$i]=json_decode(file_get_contents($link));
+          $response[$i]=json_decode(file_POST_contents($link));
           $i=$i+1;
       }
         $response["no"] = $no;
