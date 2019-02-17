@@ -22,7 +22,7 @@ if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['id'])) {
       }
     }
 
-    if(strcmp($dr2,'0')!=0){
+    if(strcmp($dr2,'1')!=0){
       $dr2=null;
       $no=1;
     }
@@ -37,7 +37,7 @@ if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['id'])) {
       foreach($Point as $key=>$value){
           $link=$url.$value.$Orig;
           $response[$i.'co']=$coord[$key];
-          $response[$i]=json_decode(file_POST_contents($link));
+          $response[$i]=json_decode(file_get_contents($link));
           $i=$i+1;
       }
         $response["no"] = $no;
