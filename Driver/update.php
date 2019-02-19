@@ -3,11 +3,11 @@ include '../DbConnect.php';
 $response = array();
 
 // check for required fields
-if (isset($_GET['Lat'])&& isset($_GET['Lon'])&&isset($_GET['key'])) {
+if (isset($_POST['lat'])&& isset($_POST['lon'])&&isset($_POST['key'])) {
 
-    $Lat = $_GET['Lat'];
-    $Lon = $_GET['Lon'];
-    $key = $_GET['key'];
+    $Lat = $_POST['lat'];
+    $Lon = $_POST['lon'];
+    $key = $_POST['key'];
 
     $result = mysqli_query($con,"update driver set lat='$Lat', lon='$Lon' where uiKey = '$key'");
 

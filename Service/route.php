@@ -22,7 +22,7 @@ if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['id'])) {
       }
     }
 
-    if(strcmp($dr2,'1')!=0){
+    if(strcmp($dr2,'1')==0){
       $dr2=null;
       $no=1;
     }

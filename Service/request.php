@@ -67,6 +67,8 @@ if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['key'])) {
               $ind=$i-1;
               $sql="update current set driKey$i='$keys[$ind]' where id = '$k'";
               $result = mysqli_query($con,$sql);
+              $sql="update driver set onDrive='$k' where uiKey = '$keys[$ind]'";
+              $result = mysqli_query($con,$sql);
             }
             $response["id"]=$k;
           echo json_encode($response);
