@@ -2,9 +2,9 @@
 include '../DbConnect.php';
 $response = array();
 
-function checkKeys($con,$str){
+function checkKeys($con,$str,$str1){
   global $response;
-  $sql = "select * from user where uiKey='$str'";
+  $sql = "select uiKey from user where id='$str1'";
   $result = mysqli_query($con,$sql);
   if (!empty($result))
       if (mysqli_num_rows($result) > 0)
@@ -15,9 +15,10 @@ function checkKeys($con,$str){
             return true;
 }
 
-if (isset($_POST['key'])) {
+if (isset($_POST['key'])&&isset($_POST['id'])) {
     $key = $_POST['key'];
-    $check=checkKeys($con,$key);
+    $iid = $_POST['id'];
+    $check=checkKeys($con,$key,$iid);
     if ($check) {
         $response["success"] = 1;
         $response["message"] = "Login";
@@ -25,7 +26,7 @@ if (isset($_POST['key'])) {
         echo json_encode($response);
     } else {
         $response["success"] = 0;
-        $response["message"] = "No user found";
+        $response["message"] = "Error in login";
 
         echo json_encode($response);
     }

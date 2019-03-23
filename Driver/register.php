@@ -39,7 +39,7 @@ if (isset($_POST['mob'])&& isset($_POST['pass'])) {
     $result = mysqli_query($con,"select id from driver where id=$mob");
     if (mysqli_num_rows($result)==0) {
       $key=generateKey($con);
-      $sql="insert into driver(id,pass,uiKey,lat,lon,onDrive,noDrive,lastDrive,carNo) values('$mob','$pass','$key',13.065057, 80.2263933,0,0,'$time','TNBJ057569')";
+      $sql="insert into driver(id,pass,uiKey,lat,lon,onDrive,noDrive,lastDrive,carNo,Medical Assistance, Appetite Request, Sanitary Request, Destress Request, Reinforcement Request, Technical Assistance) values('$mob','$pass','$key',13.065057, 80.2263933,0,0,'$time','TNBJ057569','yes','yes','yes','yes','yes','yes')";
       $result = mysqli_query($con,$sql);
       if ($result) {
           $response["success"] = 1;
