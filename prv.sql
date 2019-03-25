@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2019 at 04:19 PM
+-- Generation Time: Mar 25, 2019 at 06:26 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.3.1
 
@@ -36,27 +36,6 @@ CREATE TABLE `current` (
   `status` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `current`
---
-
-INSERT INTO `current` (`id`, `reqKey`, `driKey1`, `driKey2`, `status`) VALUES
-('JnqHwdMbG512BIXR', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('Sh8ucGrsNWyLQUik', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('kfjIFub4zcNlTgZ9', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('zKATMQ3eV4qojb5k', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('LYjKas64Zw3lTmQv', '8xg6Vo9OnSvupfPK', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('GTmvx0rYpn1RliMS', '8xg6Vo9OnSvupfPK', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('8PYfHzjGr2tZ7VSC', '8xg6Vo9OnSvupfPK', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('zwNesX9PonVuZ6Gd', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('hGBCDOZT6n91MlaV', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('62VjKgmyorx3kALi', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('vO1fyXFWJrU8NtAn', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('FRLJkh2YuZmpU5qr', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('wz6HB7VAfRxpg2Ev', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('P9G6HgYbrALCTWtw', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process'),
-('uXxOfeCj4bUDscHZ', 'Ngu8kBmhScxDYPJW', '8xg6Vo9OnSvupfPK', '0', 'On Process');
-
 -- --------------------------------------------------------
 
 --
@@ -72,15 +51,14 @@ CREATE TABLE `driver` (
   `onDrive` varchar(16) NOT NULL,
   `noDrive` varchar(20) NOT NULL,
   `lastDrive` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `carNo` varchar(10) NOT NULL
+  `carNo` varchar(10) NOT NULL,
+  `Medical Assistance` varchar(20) NOT NULL,
+  `Appetite Request` varchar(20) NOT NULL,
+  `Sanitary Request` varchar(20) NOT NULL,
+  `Destress Request` varchar(20) NOT NULL,
+  `Reinforcement Request` varchar(20) NOT NULL,
+  `Technical Assistance` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `driver`
---
-
-INSERT INTO `driver` (`id`, `pass`, `uiKey`, `lat`, `lon`, `onDrive`, `noDrive`, `lastDrive`, `carNo`) VALUES
-('8608111555', 'qwer1234', '8xg6Vo9OnSvupfPK', 13.063407019176417, 80.23059414791567, '0', '0', '2019-02-16 02:22:09', 'TNBJ057569');
 
 -- --------------------------------------------------------
 
@@ -91,14 +69,6 @@ INSERT INTO `driver` (`id`, `pass`, `uiKey`, `lat`, `lon`, `onDrive`, `noDrive`,
 CREATE TABLE `uikeys` (
   `uiKey` varchar(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `uikeys`
---
-
-INSERT INTO `uikeys` (`uiKey`) VALUES
-('Ngu8kBmhScxDYPJW'),
-('8xg6Vo9OnSvupfPK');
 
 -- --------------------------------------------------------
 
@@ -114,13 +84,6 @@ CREATE TABLE `user` (
   `lon` double NOT NULL,
   `imei` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `pass`, `uiKey`, `lat`, `lon`, `imei`) VALUES
-('8608111555', 'qwer1234', 'Ngu8kBmhScxDYPJW', 13.0650102, 80.2264483, '868263030707934');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -1,6 +1,8 @@
 <?php
 include '../DbConnect.php';
 include '../php.php';
+ini_set('max_execution_time', 0);
+
 
 function generateKey($con,$user){
   $keyLenght=16;
@@ -36,8 +38,11 @@ $distance = array();
 $keys=array();
 $max=0;
 if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['key'])) {
+  
     $lld1 = new LatLng($_POST['lat'], $_POST['lon']);
+    
     $key=$_POST['key'];
+    
     $sql="select lat,lon,uiKey from driver where onDrive='0'";
     $result = mysqli_query($con,$sql);
     if (!empty($result)) {
@@ -49,12 +54,6 @@ if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['key'])) {
           $response["success"] = 1;
           $value=$distance;
           sort($distance);
-          if(count($distance)>2){
-            $max=2;
-          }
-          else {
-            $max=count($distance);
-          }
 
           for($i=0;$i<count($distance);$i++)
             foreach ($value as $key=>$dist)
@@ -63,14 +62,46 @@ if (isset($_POST['lat'])&&isset($_POST['lon'])&&isset($_POST['key'])) {
                   array_push($keys,$key);
                   break;
               }
-            for($i=1;$i<=$max;$i++){
-              $ind=$i-1;
-              $sql="update current set driKey$i='$keys[$ind]' where id = '$k'";
+            $flag=0;
+            for($i=0;$i<count($distance);$i++){
+              if($flag==1)
+                break;
+              $sql="update driver set onDrive='$k' where uiKey = '$keys[$i]'";
               $result = mysqli_query($con,$sql);
-              $sql="update driver set onDrive='$k' where uiKey = '$keys[$ind]'";
-              $result = mysqli_query($con,$sql);
+              for($time = 0 ; $time < 39;$time++){
+                $status;
+                $sql="select noDrive from driver where uiKey = '$keys[$i]'";
+                $result = mysqli_query($con,$sql);
+                if (!empty($result))
+                  if (mysqli_num_rows($result) > 0)
+                    if ($row=mysqli_fetch_assoc($result))
+                      $status=$row['noDrive'];
+                if($status==1){
+                  $sql="update current set driKey1='$keys[$i]' where id = '$k'";
+                  $result = mysqli_query($con,$sql);
+                  $flag=1;
+                  break;
+                }
+                else if($status==-1){
+                  break;
+                }
+                 sleep(1);
+              }
+              if($flag==0){
+                  $sql="update driver set onDrive='0',noDrive='0' where uiKey = '$keys[$i]'";
+                  $result = mysqli_query($con,$sql);
+              }
+              else{
+                  break;
+              }
             }
-            $response["id"]=$k;
+            if($flag==0){
+              $response["success"] = 0;
+              $response["message"] = "No Driver Responding";
+            }
+            else{
+              $response["id"]=$k;
+            }
           echo json_encode($response);
       }
       else {
